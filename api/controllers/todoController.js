@@ -12,11 +12,13 @@ function getTodos(res) {
 module.exports = function (app) {
   // Read List Todos
   app.get("/api/todos", function (req, res) {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
     getTodos(res);
   });
 
   // get by id
   app.get("/api/todos/:id", function (req, res) {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
     Todos.findById({ _id: req.params.id }, function (err, todo) {
       if (err) res.send(err);
       else res.send(todo);
@@ -26,6 +28,7 @@ module.exports = function (app) {
 
   //post 
   app.post("/api/todos", function (req, res) {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
       var todo = {
           text: req.body.text,
           isDone: req.body.isDone,
@@ -38,12 +41,14 @@ module.exports = function (app) {
   // update
 
   app.put("/api/todos", function (req, res) {
-    if (!req.body.id) {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
+    console.log("requ", req);
+    if (!req.body._id) {
       return res.send(500);
     } else {
       Todos.update(
         {
-          _id: req.body.id,
+          _id: req.body._id,
         },
         {
           text: req.body.text,
@@ -62,6 +67,7 @@ module.exports = function (app) {
   //delete
 
   app.delete("/api/todos/:id", function (req, res) {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
     Todos.remove(
       {
         _id: req.params.id,
